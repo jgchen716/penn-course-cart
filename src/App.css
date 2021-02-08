@@ -1,0 +1,109 @@
+/* header and nav bar*/
+
+.cart-course {
+	font-weight: bold;
+}
+
+.checkout-button {
+	margin-top: 3rem;
+}
+
+.header {
+	width: 100%;
+	padding: 0 1rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	margin: 10px 0;
+	text-align: center;
+	background-color: #f47c7c;
+	padding-top: 15px;
+	padding-bottom: 10px;
+	margin-top: 0;
+}
+
+.header h2 {
+	font-size: 2rem;
+}
+
+.icon {
+	color: #fff;
+	margin-right: 1rem;
+}
+
+.course-modal {
+	position: absolute;
+	left: auto;
+	right: 20px;
+}
+
+.link {
+	text-decoration: none;
+	color: white;
+}
+
+/* container */
+.inner-container {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 calc(1rem + 10%);
+}
+
+/* search bar */
+
+.search-bar {
+	max-width: 30%;
+	margin: 20px auto;
+	/* width: 20%;
+	margin: 30px auto 35px;
+	padding-right: 22%; */
+	text-align: center;
+}
+
+.search-icon {
+	position: absolute;
+	padding-left: 225px;
+	padding-top: 8px;
+}
+
+.search {
+	min-width: 17rem;
+	background-color: #f4f4f4;
+	border-radius: 290486px;
+}
+
+input {
+	text-align: center;
+	box-shadow: 1.5px 1.5px 1.5px rgba(0, 0, 0, 0.1);
+	padding-left: 1rem;
+	max-width: 100%;
+	width: 100%;
+	color: #363636;
+	height: 40px;
+	display: block;
+}
+
+/* courses */
+
+.add-cart {
+	padding-left: 10px;
+}
+
+.course {
+	text-align: center;
+	padding-top: 2rem;
+}
+
+.course-card {
+	margin: 1.5rem 0;
+}
+
+.course-code {
+	margin-right: 2rem;
+}
+
+.course-subheading {
+	font-weight: bold;
+}
+
+.course-text {
+	margin: auto;
+}
