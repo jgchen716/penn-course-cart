@@ -60,14 +60,15 @@
 
 .search-icon {
 	position: absolute;
-	padding-left: 225px;
-	padding-top: 8px;
+	padding-top: 5px;
+	right: 40%;
 }
 
 .search {
 	min-width: 17rem;
 	background-color: #f4f4f4;
 	border-radius: 290486px;
+	z-index: 100;
 }
 
 input {

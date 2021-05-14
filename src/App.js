@@ -75,8 +75,8 @@ function Checkout({ cart }) {
 		<>
 			<h1>Course Receipt</h1>
 			<ListGroup>
-				{cart.map((course) => (
-					<ListGroup.Item>
+				{cart.map((course, index) => (
+					<ListGroup.Item key={index}>
 						<h5>CIS {course.number}</h5>
 					</ListGroup.Item>
 				))}
