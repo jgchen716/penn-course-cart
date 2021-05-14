@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import "../App.css";
 
 import { Link } from "react-router-dom";
+import { DragDropContext } from "react-beautiful-dnd";
 
 function Cart({ cart, removeCourse }) {
 	// view cart pop up window

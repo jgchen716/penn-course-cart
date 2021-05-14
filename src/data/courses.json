@@ -2,7 +2,7 @@
   {
     "dept": "CIS",
     "number": 110,
-    "title": "Introduction to Computer Programming (with Java, for Beginners",
+    "title": "Introduction to Computer Programming (with Java, for Beginners)",
     "description": "Introduction to Computer Programming is the first course in our series introducing students to computer science. In this class you will learn the fundamentals of computer programming in Java, with emphasis on applications in science and engineering. You will also learn about the broader field of computer science and algorithmic thinking, the fundamental approach that computer scientists take to solving problems."
   },
   {
@@ -14,15 +14,15 @@
   {
     "dept": "CIS",
     "number": 121,
-    "title": "Programming Languages and Techniques I",
+    "title": "Programming Languages and Techniques II",
     "prereqs": ["CIS 120", "CIS 160"],
-    "description": "This is a course about Algorithms and Data Structures using the JAVA programming language. We introduce the basic concepts about complexity of an algorithm and methods on how to compute the running time of algorithms. Then, we describe data structures like stacks, queues, maps, trees, and graphs, and we construct efficient algorithms based on these representations. The course builds upon existing implementations of basic data structures in JAVA and extends them for the structures like trees, studying the performance of operations on such structures, and their efficiency when used in real-world applications. A large project introducing students to the challenges of software engineering concludes the course."
+    "description": "This is a course about Algorithms and Data Structures using the Java programming language. We introduce the basic concepts about complexity of an algorithm and methods on how to compute the running time of algorithms. Then, we describe data structures like stacks, queues, maps, trees, and graphs, and we construct efficient algorithms based on these representations. The course builds upon existing implementations of basic data structures in Java and extends them for the structures like trees, studying the performance of operations on such structures, and their efficiency when used in real-world applications. A large project introducing students to the challenges of software engineering concludes the course."
   },
 
   {
     "dept": "CIS",
     "number": 125,
-    "title": "Technology and Policy ",
+    "title": "Technology and Policy",
     "description": "Have you ever wondered why sharing music and video generates such political and legal controversies?  Is information on your PC safe and should law enforcement be able to access information you enter on the Web?  Will new devices allow tracking of your every move and every purchase?\nCIS 125 is focused on developing an understanding of existing and emerging technologies, along with the political, societal and economic impacts of those technologies.  The technologies are spread across a number of engineering areas and each of them raise issues that are of current concern or are likely to be a future issue."
   },
   {
@@ -41,7 +41,7 @@
   {
     "dept": "CIS",
     "number": 160,
-    "title": "Mathematical Foundations of Computer Scienc",
+    "title": "Mathematical Foundations of Computer Science",
     "description": "What are the basic mathematical concepts and techniques needed in computer science? This course provides an introduction to proof principles and logics, functions and relations, induction principles, combinatorics and graph theory, as well as a rigorous grounding in writing and reading mathematical proofs."
   },
   {
@@ -75,13 +75,13 @@
   {
     "dept": "CIS",
     "number": 194,
-    "title": "Haskell Programmin",
+    "title": "Haskell Programming",
     "description": "Haskell is a high-level, purely functional programming language with a strong static type system and elegant mathematical underpinnings. It is being increasingly used in industry by organizations such as Facebook, AT&T, and NASA, along with several financial firms. We will explore the joys of functional programming, using Haskell as a vehicle. The aim of the course will be to allow you to use Haskell to easily and conveniently write practical programs. All are welcome, including those with no programming experience. Evaluation will be based on regular homework assignments and class participation."
   },
   {
     "dept": "CIS",
     "number": 195,
-    "title": "Mobile App Developmen",
+    "title": "Mobile App Development",
     "prereqs": ["CIS 120"],
     "description": "This project-oriented course is centered around application development on current mobile platforms like iOS and Android. Section 201 (iOS) will be taught in Swift, and cover iOS fundamentals such as app lifecycles, storyboarding, delegation, networking and usage of both native and external libraries. Section 202 (Android) will be taught in Java with XML and will cover Android fundamentals such as layout, app lifecycles and different APIs."
   },
@@ -221,7 +221,7 @@
   {
     "dept": "CIS",
     "number": 419,
-    "title": "Applied Machine Learnin",
+    "title": "Applied Machine Learning",
     "prereqs": ["CIS 121"],
     "description": "Machine learning has been essential to the success of many recent technologies, including autonomous vehicles, search engines, genomics, automated medical diagnosis, image recognition, and social network analysis, among many others. This course will introduce the fundamental concepts and algorithms that enable computers to learn from experience, with an emphasis on their practical application to real problems. This course will introduce supervised learning (decision trees, logistic regression, support vector machines, Bayesian methods, neural networks and deep learning), unsupervised learning (clustering, dimensionality reduction), and reinforcement learning. Additionally, the course will discuss evaluation methodology and recent applications of machine learning, including large scale learning for big data and network analysis. If CIS 519/Introduction to Machine Learning is used to fulfill the CIS/MSE core requirement, then CIS 520/Machine Learning, cannot be used to fulfill the CIS/MSE core requirement, but can be used as a CIS elective. If CIS 520/Machine Learning is used to fulfill the CIS/MSE core requirement, then CIS 519/Introduction to Machine Learning, cannot be used to fulfill the CIS/MSE core requirement, but can be used as a CIS elective."
   },
@@ -229,7 +229,7 @@
   {
     "dept": "CIS",
     "number": 421,
-    "title": "Artificial Intelligenc",
+    "title": "Artificial Intelligence",
     "prereqs": ["CIS 121", "ESE 301", "STAT 430 recommended"],
 
     "description": "This course investigates algorithms to implement resource-limited knowledge-based agents which sense and act in the world. Topics include, search, machine learning, probabilistic reasoning, natural language processing, knowledge representation and logic. After a brief introduction to the language, programming assignments will be in Python."
@@ -291,7 +291,7 @@
   {
     "dept": "CIS",
     "number": 461,
-    "title": "Advanced Renderin",
+    "title": "Advanced Rendering",
     "prereqs": [
       "Working knowledge of C++ programming",
       "Knowledge of vector geometry"
