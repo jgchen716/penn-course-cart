@@ -9,20 +9,9 @@ import "../App.css";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-function Cart({ cart, removeCourse }) {
+function Cart({ cart, removeCourse, handleOnDragEnd }) {
 	// view cart pop up window
 	const [showModal, setShowModal] = useState(false);
-	const [courses, updateCourses] = useState(cart);
-
-	function handleOnDragEnd(result) {
-		if (!result.destination) return;
-
-		const items = Array.from(courses);
-		const [reorderedItem] = items.splice(result.source.index, 1);
-		items.splice(result.destination.index, 0, reorderedItem);
-
-		updateCourses(items);
-	}
 
 	return (
 		<div>
@@ -50,7 +39,7 @@ function Cart({ cart, removeCourse }) {
 											"Add Cart" button under each course.
 										</Alert>
 									) : (
-										courses.map(function(course, index) {
+										cart.map(function(course, index) {
 											return (
 												<Draggable
 													key={`${course.dept}-${course.number}`}

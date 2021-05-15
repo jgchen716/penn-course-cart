@@ -14,7 +14,11 @@ function Nav(props) {
 				</span>
 				<span>Penn Course Cart</span>
 				<span className="course-modal">
-					<Cart cart={props.cart} removeCourse={props.removeCourse} />
+					<Cart
+						cart={props.cart}
+						removeCourse={props.removeCourse}
+						handleOnDragEnd={props.handleOnDragEnd}
+					/>
 				</span>
 			</h2>
 		</div>

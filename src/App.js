@@ -44,6 +44,18 @@ function App() {
 		return false;
 	}
 
+	// handle drag and drop
+	// reference: https://www.freecodecamp.org/news/how-to-add-drag-and-drop-in-react-with-react-beautiful-dnd/
+	function handleOnDragEnd(result) {
+		if (!result.destination) return;
+
+		const courses = Array.from(cart);
+		const [reorderedItem] = courses.splice(result.source.index, 1);
+		courses.splice(result.destination.index, 0, reorderedItem);
+
+		setCart(courses);
+	}
+
 	useEffect(() => {
 		setCart(cart);
 	}, [cart]);
@@ -52,7 +64,11 @@ function App() {
 		<Router>
 			<Switch>
 				<Route exact path="/">
-					<Nav cart={cart} removeCourse={removeCourse} />
+					<Nav
+						cart={cart}
+						removeCourse={removeCourse}
+						handleOnDragEnd={handleOnDragEnd}
+					/>
 					<div className="inner-container">
 						<Home
 							cart={cart}
