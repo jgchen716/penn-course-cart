@@ -13,6 +13,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 function App() {
 	// top level cart state
 	const [cart, setCart] = useState([]);
+	const [courseData, setData] = useState([]);
 
 	// function to pass to children to add course
 	const addCourse = (new_course) => {
@@ -59,6 +60,13 @@ function App() {
 	useEffect(() => {
 		setCart(cart);
 	}, [cart]);
+
+	useEffect(() => {
+		const endpoint = "https://api.pennlabs.org/registrar/search?q=cis";
+		fetch(endpoint)
+			.then((response) => response.json())
+			.then((data) => setData(data));
+	}, [courseData]);
 
 	return (
 		<Router>
