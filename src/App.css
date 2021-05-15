@@ -50,25 +50,17 @@
 /* search bar */
 
 .search-bar {
-	max-width: 30%;
+	width: 30%;
 	margin: 20px auto;
-	/* width: 20%;
-	margin: 30px auto 35px;
-	padding-right: 22%; */
 	text-align: center;
-}
-
-.search-icon {
-	position: absolute;
-	padding-top: 5px;
-	right: 40%;
+	align-items: center;
+	min-width: 275px;
 }
 
 .search {
-	min-width: 17rem;
 	background-color: #f4f4f4;
 	border-radius: 290486px;
-	z-index: 100;
+	margin: auto;
 }
 
 input {
@@ -79,7 +71,7 @@ input {
 	width: 100%;
 	color: #363636;
 	height: 40px;
-	display: block;
+	margin: auto;
 }
 
 /* courses */

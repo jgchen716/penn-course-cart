@@ -15,9 +15,11 @@ function Cart({ cart, removeCourse, handleOnDragEnd }) {
 
 	return (
 		<div>
-			<Button variant="outline-dark" onClick={() => setShowModal(true)}>
-				View Cart
-			</Button>
+			<div className="cart-button">
+				<Button variant="outline-dark" onClick={() => setShowModal(true)}>
+					View Cart
+				</Button>
+			</div>
 			<Modal size="lg" show={showModal} onHide={() => setShowModal(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title id="example-modal-sizes-title-lg">
