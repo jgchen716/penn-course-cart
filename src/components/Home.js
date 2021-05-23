@@ -5,7 +5,7 @@ import Courses from "./Courses";
 import "../App.css";
 
 // contains search bar and course listings
-function Home({ addCourse, cart }) {
+function Home({ addCourse, cart, apiData }) {
 	// current search query state
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -26,7 +26,12 @@ function Home({ addCourse, cart }) {
 					/>
 				</form>
 			</div>
-			<Courses query={searchQuery} cart={cart} addCourse={addCourse} />
+			<Courses
+				query={searchQuery}
+				cart={cart}
+				addCourse={addCourse}
+				apiData={apiData}
+			/>
 		</div>
 	);
 }

@@ -13,7 +13,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 function App() {
 	// top level cart state
 	const [cart, setCart] = useState([]);
-	const [courseData, setData] = useState([]);
+	// data fetched live from Penn Labs API
+	const [apiData, setData] = useState([]);
 
 	// function to pass to children to add course
 	const addCourse = (new_course) => {
@@ -66,7 +67,7 @@ function App() {
 		fetch(endpoint)
 			.then((response) => response.json())
 			.then((data) => setData(data));
-	}, [courseData]);
+	}, [apiData]);
 
 	return (
 		<Router>
@@ -78,11 +79,7 @@ function App() {
 						handleOnDragEnd={handleOnDragEnd}
 					/>
 					<div className="inner-container">
-						<Home
-							cart={cart}
-							addCourse={addCourse}
-							includesCourse={includesCourse}
-						/>
+						<Home cart={cart} addCourse={addCourse} apiData={apiData} />
 					</div>
 				</Route>
 				<Route exact path="/checkout" component={Checkout}>
