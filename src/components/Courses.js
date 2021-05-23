@@ -32,14 +32,14 @@ function Courses({ query, addCourse, cart }) {
 						return true;
 					}
 				} else {
-					if (Array.prototype.join.call(course.prereqs, "").includes(query)) {
+					if (course.prereqs.join("").includes(query)) {
 						return true;
 					}
 				}
 			} else if (
 				course.hasOwnProperty("cross-listed") &&
-				Array.prototype.join
-					.call(course["cross-listed"], "")
+				course["cross-listed"]
+					.join("")
 					.toLowerCase()
 					.includes(query)
 			) {
@@ -59,12 +59,7 @@ function Courses({ query, addCourse, cart }) {
 							className="course-card"
 							key={`${course.dept}-${course.number}`}
 						>
-							<Card
-								key={index}
-								bg={
-									Array.prototype.includes.call(cart, course) ? "warning" : ""
-								}
-							>
+							<Card key={index} bg={cart.includes(course) ? "warning" : ""}>
 								<Accordion.Toggle as={Card.Header} eventKey={course.number}>
 									<span className="course-subheading course-code">
 										{course.dept} {course.number}{" "}
@@ -81,7 +76,7 @@ function Courses({ query, addCourse, cart }) {
 												</span>
 												{typeof course.prereqs === "string"
 													? course.prereqs
-													: Array.prototype.join.call(course.prereqs, ", ")}
+													: course.prereqs.join(", ")}
 											</p>
 										) : (
 											<p>
@@ -96,10 +91,7 @@ function Courses({ query, addCourse, cart }) {
 												<span className="course-subheading">
 													Cross-listings:{" "}
 												</span>
-												{Array.prototype.join.call(
-													course["cross-listed"],
-													", "
-												)}
+												{course["cross-listed"].join(", ")}
 											</p>
 										) : null}
 										<p>
@@ -113,7 +105,7 @@ function Courses({ query, addCourse, cart }) {
 											block
 											onClick={() => addCourse(course)}
 											value={course.title}
-											disabled={Array.prototype.includes.call(cart, course)}
+											disabled={cart.includes(course)}
 										>
 											{" "}
 											<FaCartPlus />{" "}

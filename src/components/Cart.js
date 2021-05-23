@@ -12,6 +12,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 function Cart({ cart, removeCourse, handleOnDragEnd }) {
 	// view cart pop up window
 	const [showModal, setShowModal] = useState(false);
+	const message =
+		"Your course cart is empty! Add courses by clicking on the 'Add Cart' button under each course. To rank courses, drag and drop to rearrange the courses in your cart.";
 
 	return (
 		<div>
@@ -36,10 +38,7 @@ function Cart({ cart, removeCourse, handleOnDragEnd }) {
 									ref={provided.innerRef}
 								>
 									{cart.length === 0 ? (
-										<Alert variant="info">
-											Your course cart is empty! Add courses by clicking on the
-											"Add Cart" button under each course.
-										</Alert>
+										<Alert variant="info">{message}</Alert>
 									) : (
 										cart.map(function(course, index) {
 											return (
