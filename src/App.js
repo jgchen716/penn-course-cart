@@ -3,20 +3,25 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Checkout.css";
-
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
+import axios from "axios";
 
 function App() {
 	// top level cart state
 	const [cart, setCart] = useState([]);
-	// data fetched live from Penn Labs API
-	const [rawData, setRawData] = useState([]);
-	// processed API data stored in map
-	const [courseMap, setCourseMap] = useState({});
+	const [courseData, setCourseData] = useState(null);
+
+	const apiEndpoint = "https://api.pennlabs.org/registrar/search?q=cis";
+
+	const fetchData = async () => {
+		const response = await axios.get(apiEndpoint);
+		setCourseData(response.data.courses);
+		console.log("fetched");
+	};
 
 	// function to pass to children to add course
 	const addCourse = (new_course) => {
@@ -65,55 +70,6 @@ function App() {
 		setCart(cart);
 	}, [cart]);
 
-	// fetch and store API data
-	useEffect(() => {
-		const endpoint = "https://api.pennlabs.org/registrar/search?q=cis";
-		fetch(endpoint)
-			.then((response) => response.json())
-			.then((data) => setRawData(data));
-	}, []);
-
-	useEffect(() => {
-		const createMap = function() {
-			let updatedMap = new Map();
-			if (rawData.length !== 0) {
-				// process api data
-				for (var j = 0; j < rawData.courses.length; j++) {
-					let item = rawData.courses[j];
-					const key = item.course_number.concat(item.activity);
-
-					let val;
-					if (updatedMap.has(key)) {
-						// update instructors
-						val = updatedMap.get(key);
-						const instructors = val.instructors;
-						const newInstructors = item.instructors;
-
-						for (var i = 0; i < newInstructors.length; i++) {
-							if (!instructors.includes(newInstructors[i])) {
-								instructors.push(newInstructors[i]);
-							}
-						}
-						val.instructors = instructors;
-					} else {
-						val = {
-							instructors: item.instructors,
-							requirements: item.fulfills_college_requirements,
-							credits: item.credits,
-							recitations: item.recitations,
-							notes: item.important_notes,
-						};
-					}
-					updatedMap.set(key, val);
-				}
-			}
-			return new Map(updatedMap);
-		};
-		const map = createMap();
-		console.log(map);
-		setCourseMap(map);
-	}, [rawData]);
-
 	return (
 		<Router>
 			<Switch>
@@ -124,7 +80,24 @@ function App() {
 						handleOnDragEnd={handleOnDragEnd}
 					/>
 					<div className="inner-container">
-						<Home cart={cart} addCourse={addCourse} courseMap={courseMap} />
+						<button className="fetch-button" onClick={fetchData}>
+							Fetch Data
+						</button>
+						<div>
+							{courseData &&
+								courseData.map((crs, index) => {
+									return (
+										<div key={index}>
+											<h3>
+												{crs.instructors.length > 0
+													? crs.instructors[0].name
+													: null}
+											</h3>
+										</div>
+									);
+								})}
+						</div>
+						<Home cart={cart} addCourse={addCourse} />
 					</div>
 				</Route>
 				<Route exact path="/checkout" component={Checkout}>
