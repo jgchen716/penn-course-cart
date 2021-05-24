@@ -8,20 +8,10 @@ import Home from "./components/Home";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
-import axios from "axios";
 
 function App() {
 	// top level cart state
 	const [cart, setCart] = useState([]);
-	const [courseData, setCourseData] = useState(null);
-
-	const apiEndpoint = "https://api.pennlabs.org/registrar/search?q=cis";
-
-	const fetchData = async () => {
-		const response = await axios.get(apiEndpoint);
-		setCourseData(response.data.courses);
-		console.log("fetched");
-	};
 
 	// function to pass to children to add course
 	const addCourse = (new_course) => {
@@ -80,23 +70,6 @@ function App() {
 						handleOnDragEnd={handleOnDragEnd}
 					/>
 					<div className="inner-container">
-						<button className="fetch-button" onClick={fetchData}>
-							Fetch Data
-						</button>
-						<div>
-							{courseData &&
-								courseData.map((crs, index) => {
-									return (
-										<div key={index}>
-											<h3>
-												{crs.instructors.length > 0
-													? crs.instructors[0].name
-													: null}
-											</h3>
-										</div>
-									);
-								})}
-						</div>
 						<Home cart={cart} addCourse={addCourse} />
 					</div>
 				</Route>
