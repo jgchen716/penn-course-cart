@@ -14,58 +14,6 @@ import { FaCartPlus } from "react-icons/fa";
 import axios from "axios";
 
 function Courses({ query, addCourse, cart, courseMap }) {
-	// state for API data
-	const [courseData, setCourseData] = useState(null);
-	// boolean to check whether or not button has been clicked
-	let fetched = false;
-
-	// API Endpoint
-	const apiEndpoint = "https://api.pennlabs.org/registrar/search?q=cis";
-
-	// read data from labs API
-	const fetchData = async () => {
-		const response = await axios.get(apiEndpoint);
-		const data = response.data;
-
-		if (!data) {
-			setCourseData(null);
-		} else {
-			const map = new Map();
-			const courses = data.courses;
-			for (var i = 0; i < courses.length; i++) {
-				let item = courses[i];
-				const key = item.course_number.concat(item.activity);
-
-				let val;
-				if (map.has(key)) {
-					// update instructors
-					val = map.get(key);
-					const instructors = val.instructors;
-					const newInstructors = item.instructors;
-
-					for (var j = 0; j < newInstructors.length; j++) {
-						if (!instructors.includes(newInstructors[j])) {
-							instructors.push(newInstructors[j]);
-						}
-					}
-					val.instructors = instructors;
-				} else {
-					//TODO: FIX THIS
-					val = {
-						instructors: item.instructors,
-						requirements: item.fulfills_college_requirements,
-						recitations: item.recitations,
-						notes: item.important_notes,
-					};
-				}
-				map.set(key, val);
-			}
-		}
-
-		setCourseData(courses[0]);
-		fetched = true;
-	};
-
 	// search results
 	const [searchResults, setSearchResults] = useState([]);
 
@@ -107,12 +55,6 @@ function Courses({ query, addCourse, cart, courseMap }) {
 
 	return (
 		<div>
-			<div>
-				<Button variant="outline-success" size="lg" onClick={fetchData} block>
-					See Course Info for Current Semester
-				</Button>
-				<div className="books">{courseData && courseData.course_number}</div>
-			</div>
 			<div className="courses">
 				<Accordion defaultActiveKey="0">
 					{searchResults.map(function(course, index) {
