@@ -84,22 +84,24 @@ function Courses({ query, addCourse, cart }) {
 	// filter by search query
 	useEffect(() => {
 		const results = courses.filter(function(course) {
-			const code_no_space = "CIS" + course.number.toString();
-			const code_with_space = "CIS " + course.number.toString();
+			const queryLower = query.toLowerCase();
+			const code = course.number.toString();
+			const code_no_space = "CIS" + code;
+			const code_with_space = "CIS " + code;
 			if (
-				code_no_space.toLowerCase().includes(query) ||
-				code_with_space.toLowerCase().includes(query) ||
-				course.title.toLowerCase().includes(query) ||
-				course.description.toLowerCase().includes(query)
+				code_no_space.toLowerCase().includes(queryLower) ||
+				code_with_space.toLowerCase().includes(queryLower) ||
+				course.title.toLowerCase().includes(queryLower) ||
+				course.description.toLowerCase().includes(queryLower)
 			) {
 				return true;
 			} else if (course.hasOwnProperty("prereqs")) {
 				if (typeof course.prereqs === "string") {
-					if (course.prereqs.toLowerCase().includes(query)) {
+					if (course.prereqs.toLowerCase().includes(queryLower)) {
 						return true;
 					}
 				} else {
-					if (course.prereqs.join("").includes(query)) {
+					if (course.prereqs.join("").includes(queryLower)) {
 						return true;
 					}
 				}
@@ -108,10 +110,22 @@ function Courses({ query, addCourse, cart }) {
 				course["cross-listed"]
 					.join("")
 					.toLowerCase()
-					.includes(query)
+					.includes(queryLower)
+			) {
+				return true;
+			} else if (
+				appState &&
+				appState.courses &&
+				appState.courses.get(code.concat("LEC")) &&
+				appState.courses
+					.get(code.concat("LEC"))
+					.instructors.join("")
+					.toLowerCase()
+					.includes(queryLower)
 			) {
 				return true;
 			}
+
 			return false;
 		});
 		setSearchResults(results);
@@ -137,6 +151,20 @@ function Courses({ query, addCourse, cart }) {
 									</Accordion.Toggle>
 									<Accordion.Collapse eventKey={course.number}>
 										<Card.Body>
+											{appState &&
+												appState.courses &&
+												appState.courses.get(
+													course.number.toString().concat("LEC")
+												) && (
+													<p>
+														<span className="course-subheading">Credits: </span>
+														{
+															appState.courses.get(
+																course.number.toString().concat("LEC")
+															).credit_and_grade_type
+														}
+													</p>
+												)}
 											{course.prereqs != null ? (
 												<p>
 													<span className="course-subheading">
