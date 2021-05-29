@@ -12,4 +12,4 @@ Use the search bar to filter for courses that match a particular keyword. The ap
 
 Click the "View Cart" button in the the top right corner to view the courses you have added to your cart. To rank courses in your cart, simply drag and drop to rearrange them in your cart. To delete courses, click the "x" located on the right side of the course. Once you've selected all the courses you would like, click "Checkout" at the bottom of the course cart to be redirected to your Penn Course Cart receipt.
 
-#### Thanks for Using Penn Course Cart 😃!
+#### Thanks for Using Penn Course Cart 😃 !
