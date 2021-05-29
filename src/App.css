@@ -40,6 +40,20 @@
 	color: white;
 }
 
+/* phone responsiveness */
+@media only screen and (max-width: 600px) {
+	.cart-button {
+		position: absolute;
+		top: 2.8rem;
+		right: 0.75rem;
+		width: 130px;
+	}
+
+	.header {
+		height: 7rem;
+	}
+}
+
 /* container */
 .inner-container {
 	width: 100%;

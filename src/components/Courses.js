@@ -72,7 +72,6 @@ function Courses({ query, addCourse, cart }) {
 					courseMap.delete(k);
 				}
 			});
-			console.log(courseMap);
 
 			setAppState({ loading: false, courses: courseMap });
 		});
