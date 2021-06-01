@@ -72,7 +72,7 @@ function Courses({ query, addCourse, cart }) {
 					courseMap.delete(k);
 				}
 			});
-
+			console.log(courseMap);
 			setAppState({ loading: false, courses: courseMap });
 		});
 	}, [setAppState]);
@@ -164,7 +164,8 @@ function Courses({ query, addCourse, cart }) {
 														}
 													</p>
 												)}
-											{course.prereqs != null ? (
+											{course.prereqs !== null &&
+											course.prereqs !== undefined ? (
 												<p>
 													<span className="course-subheading">
 														Prerequisites:{" "}
@@ -181,7 +182,8 @@ function Courses({ query, addCourse, cart }) {
 													N/A
 												</p>
 											)}
-											{course["cross-listed"] != null ? (
+											{course["cross-listed"] !== null &&
+											course["cross-listed"] !== undefined ? (
 												<p>
 													<span className="course-subheading">
 														Cross-listings:{" "}
@@ -209,47 +211,69 @@ function Courses({ query, addCourse, cart }) {
 											</p>
 											<div>
 												<span className="course-subheading">Lectures: </span>
-												<ul>
-													{appState &&
-														appState.courses &&
-														appState.courses.get(
-															course.number.toString().concat("LEC")
-														) &&
-														appState.courses
-															.get(course.number.toString().concat("LEC"))
-															.meetings.map((lec, idx) => {
-																return (
-																	<li key={idx}>
-																		{lec.section_id_normalized}:{"  "}
-																		{lec.meeting_days}
-																		{"  "}
-																		{lec.start_time} - {lec.end_time}
-																	</li>
-																);
-															})}
-												</ul>
+												{appState &&
+												appState.courses &&
+												(appState.courses.get(
+													course.number.toString().concat("LEC")
+												) === null ||
+													appState.courses.get(
+														course.number.toString().concat("LEC")
+													) === undefined) ? (
+													<p>N/A</p>
+												) : (
+													<ul>
+														{appState &&
+															appState.courses &&
+															appState.courses.get(
+																course.number.toString().concat("LEC")
+															) &&
+															appState.courses
+																.get(course.number.toString().concat("LEC"))
+																.meetings.map((lec, idx) => {
+																	return (
+																		<li key={idx}>
+																			{lec.section_id_normalized}:{"  "}
+																			{lec.meeting_days}
+																			{"  "}
+																			{lec.start_time} - {lec.end_time}
+																		</li>
+																	);
+																})}
+													</ul>
+												)}
 											</div>
 											<div>
 												<span className="course-subheading">Recitations: </span>
-												<ul>
-													{appState &&
-														appState.courses &&
-														appState.courses.get(
-															course.number.toString().concat("REC")
-														) &&
-														appState.courses
-															.get(course.number.toString().concat("REC"))
-															.meetings.map((rec, idx) => {
-																return (
-																	<li key={idx}>
-																		{rec.section_id_normalized}:{"  "}
-																		{rec.meeting_days}
-																		{"  "}
-																		{rec.start_time} - {rec.end_time}
-																	</li>
-																);
-															})}
-												</ul>
+												{appState &&
+												appState.courses &&
+												(appState.courses.get(
+													course.number.toString().concat("REC")
+												) === null ||
+													appState.courses.get(
+														course.number.toString().concat("REC")
+													) === undefined) ? (
+													<p>N/A</p>
+												) : (
+													<ul>
+														{appState &&
+															appState.courses &&
+															appState.courses.get(
+																course.number.toString().concat("REC")
+															) &&
+															appState.courses
+																.get(course.number.toString().concat("REC"))
+																.meetings.map((rec, idx) => {
+																	return (
+																		<li key={idx}>
+																			{rec.section_id_normalized}:{"  "}
+																			{rec.meeting_days}
+																			{"  "}
+																			{rec.start_time} - {rec.end_time}
+																		</li>
+																	);
+																})}
+													</ul>
+												)}
 											</div>
 
 											<Button
