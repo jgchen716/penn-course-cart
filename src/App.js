@@ -90,6 +90,7 @@ function Checkout({ cart }) {
 				{cart.map((course, index) => (
 					<ListGroup.Item key={index}>
 						<h5>CIS {course.number}</h5>
+						<p className="receipt-title">{course.title}</p>
 					</ListGroup.Item>
 				))}
 			</ListGroup>

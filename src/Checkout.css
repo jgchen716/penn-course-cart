@@ -1,8 +1,9 @@
 h1 {
-	padding: 25px 50px;
+	padding: 25px 50px 25px 74px;
 	font-weight: bold;
 }
 
-h5 {
+h5,
+p.receipt-title {
 	padding-left: 50px;
 }
