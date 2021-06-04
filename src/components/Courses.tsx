@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import courses from "../data/courses";
+import courses from "../data/courses.json";
 import "../App.css";
+import { course, addRemoveCourse } from "../types/types";
 
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
@@ -11,14 +12,27 @@ import { FaCartPlus } from "react-icons/fa";
 
 import axios from "axios";
 
-function Courses({ query, addCourse, cart }) {
-	const [appState, setAppState] = useState({
+type courseMap = Map<string, any> 
+
+type instructor = {
+	name: string;
+	section_id: string;
+	term: string;
+}
+
+type apiState = {
+	loading: boolean;
+	courses: courseMap | null;
+}
+
+function Courses({ query, addCourse, cart }:{query: string, addCourse: addRemoveCourse, cart: course[]}) {
+	const [appState, setAppState] = useState<apiState>({
 		loading: false,
 		courses: null,
 	});
 
 	useEffect(() => {
-		setAppState({ loading: true });
+		setAppState({ loading: true, courses: null });
 		const apiUrl = "https://api.pennlabs.org/registrar/search?q=cis";
 		axios.get(apiUrl).then((res) => {
 			const courseMap = new Map();
@@ -33,7 +47,7 @@ function Courses({ query, addCourse, cart }) {
 
 					const newInstructors = [...val.instructors];
 					const instructorsToAdd = result.instructors;
-					instructorsToAdd.forEach(function(instructor) {
+					instructorsToAdd.forEach(function(instructor: instructor) {
 						// if list of instructors doesn't include instructor already, add it
 						if (!newInstructors.includes(instructor.name)) {
 							newInstructors.push(instructor.name);
@@ -46,8 +60,8 @@ function Courses({ query, addCourse, cart }) {
 					courseMap.set(key, val);
 				} else {
 					// get names from array of objects
-					const instructorNames = [];
-					result.instructors.forEach((instructor) =>
+					const instructorNames: string[] = [];
+					result.instructors.forEach((instructor: instructor) =>
 						instructorNames.push(instructor.name)
 					);
 
@@ -66,23 +80,22 @@ function Courses({ query, addCourse, cart }) {
 				courseCodes.add(courseObj.number.toString())
 			);
 
-			courseMap.forEach((v, k) => {
+			courseMap.forEach((_, k) => {
 				const code = k.substring(0, 3);
 				if (!courseCodes.has(code)) {
 					courseMap.delete(k);
 				}
 			});
-			console.log(courseMap);
 			setAppState({ loading: false, courses: courseMap });
 		});
-	}, [setAppState]);
+	}, [appState]);
 
 	// search results
-	const [searchResults, setSearchResults] = useState([]);
+	const [searchResults, setSearchResults] = useState<course[]>([]);
 
 	// filter by search query
 	useEffect(() => {
-		const results = courses.filter(function(course) {
+		const results = (courses as course[]).filter(function(course) {
 			const queryLower = query.toLowerCase();
 			const code = course.number.toString();
 			const code_no_space = "CIS" + code;
@@ -96,16 +109,16 @@ function Courses({ query, addCourse, cart }) {
 				return true;
 			} else if (course.hasOwnProperty("prereqs")) {
 				if (typeof course.prereqs === "string") {
-					if (course.prereqs.toLowerCase().includes(queryLower)) {
+					if (course.prereqs && (course.prereqs as string).toLowerCase().includes(queryLower)) {
 						return true;
 					}
 				} else {
-					if (course.prereqs.join("").includes(queryLower)) {
+					if (course.prereqs && course.prereqs.join("").includes(queryLower)) {
 						return true;
 					}
 				}
 			} else if (
-				course.hasOwnProperty("cross-listed") &&
+				course.hasOwnProperty("cross-listed") && course["cross-listed"] &&
 				course["cross-listed"]
 					.join("")
 					.toLowerCase()
@@ -128,7 +141,7 @@ function Courses({ query, addCourse, cart }) {
 			return false;
 		});
 		setSearchResults(results);
-	}, [query]);
+	}, [query, appState]);
 
 	return (
 		<div>
@@ -141,14 +154,14 @@ function Courses({ query, addCourse, cart }) {
 								key={`${course.dept}-${course.number}`}
 							>
 								<Card key={index} bg={cart.includes(course) ? "warning" : ""}>
-									<Accordion.Toggle as={Card.Header} eventKey={course.number}>
+									<Accordion.Toggle as={Card.Header} eventKey={course.number.toString()}>
 										<span className="course-subheading course-code">
 											{course.dept} {course.number}{" "}
 										</span>
 
 										{course.title}
 									</Accordion.Toggle>
-									<Accordion.Collapse eventKey={course.number}>
+									<Accordion.Collapse eventKey={course.number.toString()}>
 										<Card.Body>
 											{appState &&
 												appState.courses &&
@@ -229,7 +242,7 @@ function Courses({ query, addCourse, cart }) {
 															) &&
 															appState.courses
 																.get(course.number.toString().concat("LEC"))
-																.meetings.map((lec, idx) => {
+																.meetings.map((lec: any, idx: number) => {
 																	return (
 																		<li key={idx}>
 																			{lec.section_id_normalized}:{"  "}
@@ -262,7 +275,7 @@ function Courses({ query, addCourse, cart }) {
 															) &&
 															appState.courses
 																.get(course.number.toString().concat("REC"))
-																.meetings.map((rec, idx) => {
+																.meetings.map((rec: any, idx: number) => {
 																	return (
 																		<li key={idx}>
 																			{rec.section_id_normalized}:{"  "}
@@ -277,7 +290,7 @@ function Courses({ query, addCourse, cart }) {
 											</div>
 
 											<Button
-												id={course.number}
+												id={course.number.toString()}
 												variant="outline-success"
 												size="lg"
 												block

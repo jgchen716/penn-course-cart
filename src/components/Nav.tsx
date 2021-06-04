@@ -3,9 +3,10 @@ import Cart from "./Cart";
 import { AiOutlineShoppingCart as CartIcon } from "react-icons/ai";
 
 import "../App.css";
+import { NavProps } from "../types/types";
 
 // contains header and cart modal
-function Nav(props) {
+function Nav(props: NavProps) {
 	return (
 		<div className="header">
 			<h2>

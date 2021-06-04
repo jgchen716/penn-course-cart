@@ -5,11 +5,12 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 import "../App.css";
+import { NavProps } from "../types/types";
 
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-function Cart({ cart, removeCourse, handleOnDragEnd }) {
+function Cart({ cart, removeCourse, handleOnDragEnd }: NavProps) {
 	// view cart pop up window
 	const [showModal, setShowModal] = useState(false);
 

@@ -5,16 +5,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Checkout.css";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
+import { course } from "./types/types";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
 
+
 function App() {
 	// top level cart state
-	const [cart, setCart] = useState([]);
+	const [cart, setCart] = useState<course[]>([]);
 
 	// function to pass to children to add course
-	const addCourse = (new_course) => {
+	const addCourse = (new_course: course) => {
 		if (cart.length < 7 && !includesCourse(new_course)) {
 			const newCart = [...cart, new_course];
 			setCart(newCart);
@@ -22,7 +24,7 @@ function App() {
 	};
 
 	// function to pass to children to remove course
-	const removeCourse = (course) => {
+	const removeCourse = (course: course) => {
 		const copy = [...cart];
 		const index = copy.indexOf(course);
 		if (index > -1) {
@@ -32,7 +34,7 @@ function App() {
 	};
 
 	// check whether course is currently in cart
-	function includesCourse(course) {
+	function includesCourse(course: course) {
 		const name = course.title;
 		const code = course.number;
 		for (var i = 0; i < cart.length; i++) {
@@ -45,7 +47,7 @@ function App() {
 
 	// handle drag and drop
 	// reference: https://www.freecodecamp.org/news/how-to-add-drag-and-drop-in-react-with-react-beautiful-dnd/
-	function handleOnDragEnd(result) {
+	function handleOnDragEnd(result: any) {
 		if (!result.destination) return;
 
 		const courses = Array.from(cart);
@@ -82,9 +84,9 @@ function App() {
 }
 
 // simple checkout receipt page
-function Checkout({ cart }) {
+function Checkout({ cart }: {cart: course[]}) {
 	return (
-		<>
+		<div>
 			<h1>Course Receipt</h1>
 			<ListGroup>
 				{cart.map((course, index) => (
@@ -94,7 +96,7 @@ function Checkout({ cart }) {
 					</ListGroup.Item>
 				))}
 			</ListGroup>
-		</>
+		</div>
 	);
 }
 
