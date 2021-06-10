@@ -12,7 +12,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function Cart({ cart, removeCourse, handleOnDragEnd }: NavProps) {
 	// view cart pop up window
-	const [showModal, setShowModal] = useState(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	// message to display when cart is empty
 	const message =
