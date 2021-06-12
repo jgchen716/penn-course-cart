@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import courses from "../data/courses";
+import * as data from "../data/courses.json";
 import "../App.css";
+import { course } from "../App";
 
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
@@ -11,14 +12,33 @@ import { FaCartPlus } from "react-icons/fa";
 
 import axios from "axios";
 
-function Courses({ query, addCourse, cart }) {
-	const [appState, setAppState] = useState({
+export type appState = {
+	loading: boolean;
+	courses: Map<string, any>;
+}
+
+export type instructor = {
+	name: string;
+	section_id: string;
+	term: string;
+}
+
+type CoursesProps = {
+	query: string,
+	addCourse: (c: course) => void;
+	cart: course[]
+}
+
+function Courses({ query, addCourse, cart }: CoursesProps) {
+	let courses: course[] = JSON.parse(data);
+
+	const [appState, setAppState] = useState<appState>({
 		loading: false,
-		courses: null,
+		courses: new Map<string, any>(),
 	});
 
 	useEffect(() => {
-		setAppState({ loading: true });
+		setAppState({ loading: true, courses: new Map<string, any>() });
 		const apiUrl = "https://api.pennlabs.org/registrar/search?q=cis";
 		axios.get(apiUrl).then((res) => {
 			const courseMap = new Map();
@@ -33,7 +53,7 @@ function Courses({ query, addCourse, cart }) {
 
 					const newInstructors = [...val.instructors];
 					const instructorsToAdd = result.instructors;
-					instructorsToAdd.forEach(function(instructor) {
+					instructorsToAdd.forEach(function(instructor: instructor) {
 						// if list of instructors doesn't include instructor already, add it
 						if (!newInstructors.includes(instructor.name)) {
 							newInstructors.push(instructor.name);
@@ -46,8 +66,8 @@ function Courses({ query, addCourse, cart }) {
 					courseMap.set(key, val);
 				} else {
 					// get names from array of objects
-					const instructorNames = [];
-					result.instructors.forEach((instructor) =>
+					const instructorNames: string[] = [];
+					result.instructors.forEach((instructor: instructor) =>
 						instructorNames.push(instructor.name)
 					);
 
@@ -62,11 +82,11 @@ function Courses({ query, addCourse, cart }) {
 
 			// remove courses not in courses.json
 			const courseCodes = new Set();
-			courses.forEach((courseObj) =>
+			courses.forEach((courseObj: course) =>
 				courseCodes.add(courseObj.number.toString())
 			);
 
-			courseMap.forEach((v, k) => {
+			courseMap.forEach((_, k) => {
 				const code = k.substring(0, 3);
 				if (!courseCodes.has(code)) {
 					courseMap.delete(k);
@@ -75,14 +95,14 @@ function Courses({ query, addCourse, cart }) {
 			console.log(courseMap);
 			setAppState({ loading: false, courses: courseMap });
 		});
-	}, [setAppState]);
+	}, []);
 
 	// search results
 	const [searchResults, setSearchResults] = useState([]);
 
 	// filter by search query
 	useEffect(() => {
-		const results = courses.filter(function(course) {
+		const results = courses.filter(function(course: course) {
 			const queryLower = query.toLowerCase();
 			const code = course.number.toString();
 			const code_no_space = "CIS" + code;

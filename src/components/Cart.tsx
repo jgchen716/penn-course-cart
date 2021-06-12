@@ -8,10 +8,12 @@ import "../App.css";
 
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { course } from "../App";
+import { NavProps } from "./Nav";
 
-function Cart({ cart, removeCourse, handleOnDragEnd }) {
+export default function Cart({ cart, removeCourse, handleOnDragEnd }: NavProps) {
 	// view cart pop up window
-	const [showModal, setShowModal] = useState(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	// message to display when cart is empty
 	const message =
@@ -88,5 +90,3 @@ function Cart({ cart, removeCourse, handleOnDragEnd }) {
 		</div>
 	);
 }
-
-export default Cart;

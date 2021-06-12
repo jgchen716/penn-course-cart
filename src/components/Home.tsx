@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-
 import Courses from "./Courses";
-
+import { course } from "../App";
 import "../App.css";
 
+type HomeProps = {
+	addCourse: (c: course) => void;
+	cart: course[];
+}
+
 // contains search bar and course listings
-function Home({ addCourse, cart }) {
+export default function Home({ addCourse, cart }: HomeProps) {
 	// current search query state
-	const [searchQuery, setSearchQuery] = useState("");
+	const [searchQuery, setSearchQuery] = useState<string>("");
 
 	return (
 		<div>
@@ -19,7 +23,7 @@ function Home({ addCourse, cart }) {
 						autoComplete="off"
 						spellCheck="false"
 						type="text"
-						tabIndex="0"
+						tabIndex={0}
 						placeholder="Search for a course"
 						value={searchQuery}
 						onChange={(event) => setSearchQuery(event.target.value)}
@@ -30,5 +34,3 @@ function Home({ addCourse, cart }) {
 		</div>
 	);
 }
-
-export default Home;
