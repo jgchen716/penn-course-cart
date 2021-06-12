@@ -1,7 +1,7 @@
 import React from "react";
 import Cart from "./Cart";
 import { AiOutlineShoppingCart as CartIcon } from "react-icons/ai";
-import { courseType } from "../App";
+import { courseType } from "../types/types";
 
 import "../App.css";
 

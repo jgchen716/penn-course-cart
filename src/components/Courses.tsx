@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import * as data from "../data/courses.json";
 import "../App.css";
-import { courseType } from "../App";
+import * as types from "../types/types";
 
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
@@ -12,33 +12,23 @@ import { FaCartPlus } from "react-icons/fa";
 
 import axios from "axios";
 
-export type appStateType = {
-	loading: boolean;
-	courses: Map<string, any>;
-}
-
-export type instructor = {
-	name: string;
-	section_id: string;
-	term: string;
-}
 
 type CoursesProps = {
 	query: string,
-	addCourse: (c: courseType) => void;
-	cart: courseType[]
+	addCourse: (c: types.courseType) => void;
+	cart: types.courseType[]
 }
 
 function Courses({ query, addCourse, cart }: CoursesProps) {
-	let courses: courseType[] = JSON.parse(JSON.stringify(data)).default;
+	let courses: types.courseType[] = JSON.parse(JSON.stringify(data)).default;
 
-	const [appState, setAppState] = useState<appStateType>({
+	const [appState, setAppState] = useState<types.appStateType>({
 		loading: false,
-		courses: new Map<string, any>(),
+		courses: new Map<string, types.apiCourse>(),
 	});
 
 	useEffect(() => {
-		setAppState({ loading: true, courses: new Map<string, any>() });
+		setAppState({ loading: true, courses: new Map<string, types.apiCourse>() });
 		const apiUrl = "https://api.pennlabs.org/registrar/search?q=cis";
 		axios.get(apiUrl).then((res) => {
 			const courseMap = new Map();
@@ -53,7 +43,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 
 					const newInstructors = [...val.instructors];
 					const instructorsToAdd = result.instructors;
-					instructorsToAdd.forEach(function(inst: instructor) {
+					instructorsToAdd.forEach(function(inst: types.instructor) {
 						// if list of instructors doesn't include instructor already, add it
 						if (!newInstructors.includes(inst.name)) {
 							newInstructors.push(inst.name);
@@ -67,7 +57,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 				} else {
 					// get names from array of objects
 					const instructorNames: string[] = [];
-					result.instructors.forEach((inst: instructor) =>
+					result.instructors.forEach((inst: types.instructor) =>
 						instructorNames.push(inst.name)
 					);
 
@@ -82,9 +72,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 
 			// remove courses not in courses.json
 			const courseCodes = new Set();
-			console.log(courses);
-			console.log(typeof courses);
-			courses.forEach((courseObj: courseType) =>
+			courses.forEach((courseObj: types.courseType) =>
 				courseCodes.add(courseObj.number.toString())
 			);
 
@@ -94,17 +82,16 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 					courseMap.delete(k);
 				}
 			});
-			console.log(courseMap);
 			setAppState({ loading: false, courses: courseMap });
 		});
 	}, []);
 
 	// search results
-	const [searchResults, setSearchResults] = useState<courseType[]>([]);
+	const [searchResults, setSearchResults] = useState<types.courseType[]>([]);
 
 	// filter by search query
 	useEffect(() => {
-		const results = courses.filter(function(course: courseType) {
+		const results = courses.filter(function(course: types.courseType) {
 			const queryLower = query.toLowerCase();
 			const code = course.number.toString();
 			const code_no_space = "CIS" + code;
@@ -117,15 +104,16 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 			) {
 				return true;
 			} else if (course.hasOwnProperty("prereqs")) {
-				if (course.prereqs && course.prereqs.join("").toLowerCase().includes(queryLower)) {
+				
+				if (course.prereqs && Array.isArray(course.prereqs) && Array.prototype.join.call(course.prereqs, " ").toLowerCase().includes(queryLower)) {
 					return true;
 				} else {
-					if (course.prereqs.join("").includes(queryLower)) {
+					if (course.prereqs && Array.isArray(course.prereqs) && course.prereqs.join(" ").includes(queryLower)) {
 						return true;
 					}
 				}
 			} else if (
-				course.hasOwnProperty("cross-listed") &&
+				course.hasOwnProperty("cross-listed") && course["cross-listed"] && 
 				course["cross-listed"]
 					.join("")
 					.toLowerCase()
@@ -154,7 +142,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 		<div>
 			<div className="courses">
 				<Accordion defaultActiveKey="0">
-					{searchResults.map(function(course: courseType, index: number) {
+					{searchResults.map(function(course: types.courseType, index: number) {
 						return (
 							<div
 								className="course-card"

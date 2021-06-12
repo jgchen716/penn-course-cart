@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Courses from "./Courses";
-import { courseType } from "../App";
+import { courseType } from "../types/types";
 import "../App.css";
 
 type HomeProps = {

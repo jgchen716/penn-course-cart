@@ -9,14 +9,7 @@ import Home from "./components/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
 
-export type courseType = {
-	dept: string;
-	number: number;
-	title: string;
-	prereqs: string[];
-	'cross-listed': string[];
-	description: string;
-}
+import { courseType } from "./types/types";
 
 export default function App() {
 	// top level cart state
