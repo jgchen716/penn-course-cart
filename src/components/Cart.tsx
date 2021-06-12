@@ -8,7 +8,7 @@ import "../App.css";
 
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { course } from "../App";
+import { courseType } from "../App";
 import { NavProps } from "./Nav";
 
 export default function Cart({ cart, removeCourse, handleOnDragEnd }: NavProps) {

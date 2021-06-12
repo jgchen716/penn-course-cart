@@ -9,9 +9,9 @@ import Home from "./components/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
 
-export type course = {
+export type courseType = {
 	dept: string;
-	number: string;
+	number: number;
 	title: string;
 	prereqs: string[];
 	'cross-listed': string[];
@@ -20,10 +20,10 @@ export type course = {
 
 export default function App() {
 	// top level cart state
-	const [cart, setCart] = useState<course[]>([]);
+	const [cart, setCart] = useState<courseType[]>([]);
 
 	// function to pass to children to add course
-	const addCourse = (new_course: course) => {
+	const addCourse = (new_course: courseType) => {
 		if (cart.length < 7 && !includesCourse(new_course)) {
 			const newCart = [...cart, new_course];
 			setCart(newCart);
@@ -31,7 +31,7 @@ export default function App() {
 	};
 
 	// function to pass to children to remove course
-	const removeCourse = (course: course) => {
+	const removeCourse = (course: courseType) => {
 		const copy = [...cart];
 		const index = copy.indexOf(course);
 		if (index > -1) {
@@ -41,7 +41,7 @@ export default function App() {
 	};
 
 	// check whether course is currently in cart
-	function includesCourse(course: course) {
+	function includesCourse(course: courseType) {
 		const name = course.title;
 		const code = course.number;
 		for (var i = 0; i < cart.length; i++) {
@@ -91,12 +91,12 @@ export default function App() {
 }
 
 // simple checkout receipt page
-function Checkout({ cart }:{cart: course[]}) {
+function Checkout({ cart }:{cart: courseType[]}) {
 	return (
 		<>
 			<h1>Course Receipt</h1>
 			<ListGroup>
-				{cart.map((course: course, index: number) => (
+				{cart.map((course: courseType, index: number) => (
 					<ListGroup.Item key={index}>
 						<h5>CIS {course.number}</h5>
 						<p className="receipt-title">{course.title}</p>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import * as data from "../data/courses.json";
 import "../App.css";
-import { course } from "../App";
+import { courseType } from "../App";
 
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
@@ -12,7 +12,7 @@ import { FaCartPlus } from "react-icons/fa";
 
 import axios from "axios";
 
-export type appState = {
+export type appStateType = {
 	loading: boolean;
 	courses: Map<string, any>;
 }
@@ -25,14 +25,14 @@ export type instructor = {
 
 type CoursesProps = {
 	query: string,
-	addCourse: (c: course) => void;
-	cart: course[]
+	addCourse: (c: courseType) => void;
+	cart: courseType[]
 }
 
 function Courses({ query, addCourse, cart }: CoursesProps) {
-	let courses: course[] = JSON.parse(data);
+	let courses: courseType[] = JSON.parse(JSON.stringify(data)).default;
 
-	const [appState, setAppState] = useState<appState>({
+	const [appState, setAppState] = useState<appStateType>({
 		loading: false,
 		courses: new Map<string, any>(),
 	});
@@ -53,10 +53,10 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 
 					const newInstructors = [...val.instructors];
 					const instructorsToAdd = result.instructors;
-					instructorsToAdd.forEach(function(instructor: instructor) {
+					instructorsToAdd.forEach(function(inst: instructor) {
 						// if list of instructors doesn't include instructor already, add it
-						if (!newInstructors.includes(instructor.name)) {
-							newInstructors.push(instructor.name);
+						if (!newInstructors.includes(inst.name)) {
+							newInstructors.push(inst.name);
 						}
 					});
 
@@ -67,8 +67,8 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 				} else {
 					// get names from array of objects
 					const instructorNames: string[] = [];
-					result.instructors.forEach((instructor: instructor) =>
-						instructorNames.push(instructor.name)
+					result.instructors.forEach((inst: instructor) =>
+						instructorNames.push(inst.name)
 					);
 
 					const val = {
@@ -82,7 +82,9 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 
 			// remove courses not in courses.json
 			const courseCodes = new Set();
-			courses.forEach((courseObj: course) =>
+			console.log(courses);
+			console.log(typeof courses);
+			courses.forEach((courseObj: courseType) =>
 				courseCodes.add(courseObj.number.toString())
 			);
 
@@ -98,11 +100,11 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 	}, []);
 
 	// search results
-	const [searchResults, setSearchResults] = useState([]);
+	const [searchResults, setSearchResults] = useState<courseType[]>([]);
 
 	// filter by search query
 	useEffect(() => {
-		const results = courses.filter(function(course: course) {
+		const results = courses.filter(function(course: courseType) {
 			const queryLower = query.toLowerCase();
 			const code = course.number.toString();
 			const code_no_space = "CIS" + code;
@@ -115,10 +117,8 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 			) {
 				return true;
 			} else if (course.hasOwnProperty("prereqs")) {
-				if (typeof course.prereqs === "string") {
-					if (course.prereqs.toLowerCase().includes(queryLower)) {
-						return true;
-					}
+				if (course.prereqs && course.prereqs.join("").toLowerCase().includes(queryLower)) {
+					return true;
 				} else {
 					if (course.prereqs.join("").includes(queryLower)) {
 						return true;
@@ -154,21 +154,21 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 		<div>
 			<div className="courses">
 				<Accordion defaultActiveKey="0">
-					{searchResults.map(function(course, index) {
+					{searchResults.map(function(course: courseType, index: number) {
 						return (
 							<div
 								className="course-card"
 								key={`${course.dept}-${course.number}`}
 							>
 								<Card key={index} bg={cart.includes(course) ? "warning" : ""}>
-									<Accordion.Toggle as={Card.Header} eventKey={course.number}>
+									<Accordion.Toggle as={Card.Header} eventKey={course.number.toString()}>
 										<span className="course-subheading course-code">
 											{course.dept} {course.number}{" "}
 										</span>
 
 										{course.title}
 									</Accordion.Toggle>
-									<Accordion.Collapse eventKey={course.number}>
+									<Accordion.Collapse eventKey={course.number.toString()}>
 										<Card.Body>
 											{appState &&
 												appState.courses &&
@@ -249,7 +249,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 															) &&
 															appState.courses
 																.get(course.number.toString().concat("LEC"))
-																.meetings.map((lec, idx) => {
+																.meetings.map((lec: any, idx: number) => {
 																	return (
 																		<li key={idx}>
 																			{lec.section_id_normalized}:{"  "}
@@ -282,7 +282,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 															) &&
 															appState.courses
 																.get(course.number.toString().concat("REC"))
-																.meetings.map((rec, idx) => {
+																.meetings.map((rec: any, idx: number) => {
 																	return (
 																		<li key={idx}>
 																			{rec.section_id_normalized}:{"  "}
@@ -297,7 +297,7 @@ function Courses({ query, addCourse, cart }: CoursesProps) {
 											</div>
 
 											<Button
-												id={course.number}
+												id={course.number.toString()}
 												variant="outline-success"
 												size="lg"
 												block

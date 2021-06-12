@@ -1,13 +1,13 @@
 import React from "react";
 import Cart from "./Cart";
 import { AiOutlineShoppingCart as CartIcon } from "react-icons/ai";
-import { course } from "../App";
+import { courseType } from "../App";
 
 import "../App.css";
 
 export type NavProps = {
-	cart: course[];
-	removeCourse: (c: course) => void;
+	cart: courseType[];
+	removeCourse: (c: courseType) => void;
 	handleOnDragEnd: (r: any) => void;
 }
 

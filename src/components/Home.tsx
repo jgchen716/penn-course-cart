@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Courses from "./Courses";
-import { course } from "../App";
+import { courseType } from "../App";
 import "../App.css";
 
 type HomeProps = {
-	addCourse: (c: course) => void;
-	cart: course[];
+	addCourse: (c: courseType) => void;
+	cart: courseType[];
 }
 
 // contains search bar and course listings
